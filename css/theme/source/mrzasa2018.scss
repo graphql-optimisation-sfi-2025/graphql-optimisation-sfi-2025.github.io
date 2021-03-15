@@ -1,0 +1,71 @@
+@import "../template/mixins";
+@import "../template/settings";
+
+@font-face {
+    font-family: Rubik Black;
+    src: url(fonts/rubik/Rubik-Black.ttf);
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Rubik Black;
+    src: url(fonts/rubik/Rubik-BlackItalic.ttf);
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Fira Sans Condensed Regular;
+    src: url(fonts/fira-sans-condensed/FiraSansCondensed-Regular.ttf);
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Fira Sans Condensed Italic;
+    src: url(fonts/fira-sans-condensed/FiraSansCondensed-Italic.ttf);
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Fira Sans Condensed Bold;
+    src: url(fonts/fira-sans-condensed/FiraSansCondensed-Bold.ttf);
+    font-style: bold;
+}
+
+@font-face {
+    font-family: Fira Sans Condensed Light;
+    src: url(fonts/fira-sans-condensed/FiraSansCondensed-Light.ttf);
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Fira Sans Condensed Light Italic;
+    src: url(fonts/fira-sans-condensed/FiraSansCondensed-LightItalic.ttf);
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Fira Mono Regular;
+    src: url(fonts/fira-mono/FiraMono-Regular.ttf);
+    font-style: regular;
+}
+
+
+$backgroundColor: #cdcdcd;
+$mainColor: #1e1e41;
+$headingColor: #0a3c9b;
+$mainFontSize: 42px;
+$mainFont: 'Fira Sans Condensed Light', 'Source Sans Pro', Helvetica, sans-serif;
+$headingFont: 'Rubik Black', 'Source Sans Pro', Helvetica, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingFontWeight: 600;
+$linkColor: #e6460a;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: #fe8558;
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+@import "../template/theme";
