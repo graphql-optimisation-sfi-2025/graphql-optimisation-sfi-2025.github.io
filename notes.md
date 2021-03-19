@@ -7,6 +7,11 @@ TODO:
 * add summaries & quotes
 * add funny images
 
+Visual
+* ruby sytax highlighing:
+  * consts
+  * ivars
+
 
 Intro
 * focus on monitoring

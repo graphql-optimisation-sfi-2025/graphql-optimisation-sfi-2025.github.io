@@ -7,36 +7,109 @@
 Friday afternoon, deploy or not to deploy?
 
 ::::
-
-Intro
-
+intro/about
 ::::
 
+## Extraction
+
+one slide with context
+
+
+## Extraction - safe evironment [Deploy]
+
+image1 with architecture (platform calling billing directly or through REST)
+<!--
 Safe environment
 * engine
 * direct calls & HTTP calls
 * feature flag, percentages
 * fallback
-* monitoring
-  * errors
-  * performance (response time)
-  * source (stacktrace)
-  * params
+-->
 
-::::
+:::
+
+## Extraction
+
+<div style='width: 50%; float: left'  >
+<div></div>
+
+From:
+```ruby
+class Product < ApplicationRecord
+  has_many :billing_records
+end
+class BillingRecord < ApplicationRecord
+  has_one :product
+end
+```
+
+</div>
+
+<div style='width: 50%; float: left'>
+<div></div>
+
+To:
+```ruby
+class Product < ApplicationRecord
+  def billing_records
+    @billing_records ||=
+      Billing::QueryService
+        .billing_records_for_products(self)
+  end
+end
+class BillingRecord
+  def product
+    @product ||= Product.find(product_id)
+  end
+end
+```
+</div>
+
+:::
+
+Image/slide for the first attempt
+
+<!--
 
 First attempt
 * replace AR associations with REST calls
 * deduplicate & optimize REST calls
 * epic failure (give the numbers)
+-->
 
+::::
 
+## Extraction - safe environemt 2 [Deploy]
+
+image2 with architecture + GQL (platform calling billing directly or through GQL or REST)
+
+<!--
 Another attempt
 * GQL
 * step by step migration
 * another layer of feature flags
 
 In general OK, but some notable issues, mostly on the consumer side
+-->
+
+but before we started the migration we added
+:::
+
+## Extraction - monitoring
+
+<!--
+* monitoring/instrumentation
+  * source (stacktrace)
+  * params
+
+      maybe a screenshot from kibana?
+
+plus ofc
+  * errors
+  * performance (response time)
+-->
+
+that allowed us to track down the perf issues
 
 ::::
 
@@ -49,43 +122,87 @@ Flood of requests
 
 :::
 
+## Flood of requests
+
+<div style='width: 48%; float: left'  >
+<div></div>
+
 ```ruby
-# AR model
-class Product
-  def billing_records
-    @billing_records ||= Billing::QueryService
-      .billing_records_for_products(self)
+def perform(*)
+  Product.eligible.
+    find_in_batches.each do |product|
+    # one billing request per call
+    DoBusinessLogic.call(product)
   end
 end
 ```
+
+<div class='fragment'>
+<div></div>
+
 ```ruby
-# Business logic
-Product.eligible.find_in_batches.each do |p|
-  DoBusinessLogic.call(p) # one billing request per call
+class DoBusinessLogic
+  def call(product)
+    product.billing_records.each {}
+  end
+end
+
+class Product < ApplicationRecord
+  def billing_records
+    @billing_records ||=
+      Billing::QueryService
+       .billing_records_for_products(self)
+  end
 end
 ```
+</div>
 
-:::
+
+</div>
+
+<div style='width: 52%; float: left'>
+<div></div>
+
+<div class='fragment'>
+<div></div>
 
 ```ruby
-Product.eligible.find_in_batches do |products|
-  cache_billing_records(products).each do |p| # one billing request per batch
-    DoBusinessLogic.call(p) # no billing requests, billing records cached
+def perform(*)
+  Product.eligible.find_in_batches do |batch|
+    # one billing request per batch
+    cache_billing_records(batch).each do |p|
+      # no billing requests
+      DoBusinessLogic.call(p)
+    end
   end
 end
 
 def cache_billing_records(products)
   # array of billing records
-  billing_records = Billing::QueryService
-    .billing_records_for_products(*products)
+  indexed_records =
+    Billing::QueryService
+      .billing_records_for_products(
+        *products
+      )
+      .group_by(&:product_gid)
 
-  indexed_records = billing_records.group_by(&:product_gid)
-
-  products.each do |p|
-    e.cache_billing_records!(indexed_records[p.gid].to_a) }
+  products.each do |product|
+    e.cache_billing_records!(
+      indexed_records[product.gid].to_a
+    )
   end
 end
 ```
+</div>
+
+</div>
+
+:::
+
+## Flood of requests
+
+Solution:
+Preload for a batch and cache
 
 ::::
 
@@ -97,50 +214,76 @@ Flood of DB queries
 
 :::
 
+## Flood of DB queries
+<div style='width: 50%; float: left' >
+<div></div>
+
 ```ruby
-# billing model in platform
-class BillingRecords
+def business_logic
+  billing_records = Billing::QueryService
+    .billing_records_for_products(*products)
+
+  billing_records.each do |r|
+    # one query to products table per call
+    BusinessLogic.call(r, r.product)
+  end
+end
+```
+
+```ruby
+class BillingRecord
+  attr_setter :product
+
   def product
     @product ||= Product.find(product_id)
   end
 end
 ```
 
+</div>
+
+<div style='width: 50%; float: left'>
+<div></div>
+
 ```ruby
-# business logic
+def business_logic
+  # with product assigned to billing records
+  # one query to products table here
   billing_records = Billing::QueryService
     .billing_records_for_products(*products)
 
   billing_records.each do |r|
-    BusinessLogic.call(r, r.product) # one query to products table per call
+    BusinessLogic.call(r, r.product)
   end
+end
 ```
-
-```ruby
-  billing_records = Billing::QueryService
-    .billing_records_for_products(*products) # with product assigned to billing records
-
-  billing_records.each do |r|
-    BusinessLogic.call(r, r.product) # one query to products table per call
-  end
-```
-:::
 
 ```ruby
 def product_billing_records(products)
-    products_by_gid = products.index_by(&:gid)
-    product_gids = products_by_gid.keys.compact
-    return [] if product_gids.blank?
+  products_by_gid =
+    products.index_by(&:gid)
 
-    billing_records = fetch_billing_records(product_gids: product_gids)
+  billing_records =
+    fetch_billing_records(
+      product_gids: products_by_gid.keys
+    )
 
-    billing_records.each do |billing_record|
-        billing_record.preload_product!(
-            products_by_gid[billing_record.product_gid]
-        )
-    end
+  billing_records.each do |billing_record|
+    gid = billing_record.product_gid
+    product = products_by_gid[gid]
+    billing_record.product = product
+  end
 end
 ```
+
+</div>
+
+:::
+
+## Flood of DB queries
+
+Solution:
+Preload data from DB and join it with billing data
 
 ::::
 
@@ -150,32 +293,71 @@ Too much data
 * Solution: query customization (GQL shines here), underfetching, moving the filtering to the server side
 > ?
 
-Underfetching
-1.
-```
-REST fetching 20+ fields and 2-3 associated collections
-```
-```
-GQL with 4 fields
-```
-2. Generic GQL mimicking REST => GQL with 3-4 fields an no associations
+:::
 
-Filtering:
+## Too much data
+
+<div style='width: 50%; float: left' >
+<div></div>
+
+```ruby
+# REST response
+{
+  "gid": "gid://..."
+  "clientGid": "gid://..."
+  "productGid": "gid://..."
+  "availability": true
+  "pending": false
+  "frequency": "weekly"
+  "startDate": "2020-08-21"
+  "endDate": "2020-10-28"
+  # ...
+  # 36 fields total
+  # loading 3-4 associations
+}
 ```
+
+```ruby
 def billing_records_for_products(*products)
-  fetch_billing_records(filter: {products: products}).
-    select(&:accessible?)
+  fetch_billing_records(
+    filter: {products: products}
+  ).select(&:accessible?)
 end
 ```
-vs
+
+</div>
+
+<div style='width: 50%; float: left' >
+<div></div>
 
 ```
+query($filter: RecordFilter!) {
+  cycles(filter: $filter) {
+    nodes {
+      gid
+      productGid
+      pending
+      frequency
+    }
+  }
+}
+```
+
+
+```ruby
 def billing_records_for_products(*products)
-  fetch_billing_records(filter: {products: products, accessible: true})
+  fetch_billing_records(
+    filter: {
+      products: products,
+      accessible: true
+    }
+  )
 end
 ```
 
-And I deployed and waited, and...
+</div>
+
+<!--And I deployed and waited, and... -->
 
 ::::
 
