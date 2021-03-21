@@ -63,6 +63,10 @@ body {
   margin: 0;
 }
 
-.answer{
+.problem{
+  color: #f77646 !important;
+}
+
+.solution{
   color: #f77646 !important;
 }

@@ -6,25 +6,72 @@
 
 Friday afternoon, deploy or not to deploy?
 
+:::
+
+two fullscreen images - one about the dillema, another about the kitten
+
 ::::
 intro/about
 ::::
 
+full-screen image with a monolith
+
+:::
+
 ## Extraction
 
-one slide with context
+<img src='img/bx-architecture1-Direct.png' />
 
+:::
 
-## Extraction - safe evironment [Deploy]
+## Extraction
 
-image1 with architecture (platform calling billing directly or through REST)
 <!--
+image1 with architecture (platform calling billing directly or through REST)
 Safe environment
 * engine
 * direct calls & HTTP calls
 * feature flag, percentages
 * fallback
 -->
+
+<img src='img/bx-architecture1-REST.png'>
+
+:::
+.
+<div style='width: 30%; float: left'  >
+<div></div>
+
+## Monitor
+yet to come
+
+</div>
+<div style='width: 30%; float: left'  >
+<div></div>
+
+## Optimize
+yet to come
+
+</div>
+<div style='width: 30%; float: left'  >
+<div></div>
+
+## Deploy
+* CI checks
+* easy & reliable rollback
+* **safe env with a fallback**
+* **feature flags**
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</div>
+:::
+
+maybe a slide with climbing belay
 
 :::
 
@@ -33,11 +80,12 @@ Safe environment
 <div style='width: 50%; float: left'  >
 <div></div>
 
-From:
+#### From
 ```ruby
 class Product < ApplicationRecord
   has_many :billing_records
 end
+
 class BillingRecord < ApplicationRecord
   has_one :product
 end
@@ -48,7 +96,7 @@ end
 <div style='width: 50%; float: left'>
 <div></div>
 
-To:
+#### To
 ```ruby
 class Product < ApplicationRecord
   def billing_records
@@ -57,6 +105,7 @@ class Product < ApplicationRecord
         .billing_records_for_products(self)
   end
 end
+
 class BillingRecord
   def product
     @product ||= Product.find(product_id)
@@ -79,9 +128,9 @@ First attempt
 
 ::::
 
-## Extraction - safe environemt 2 [Deploy]
+## Extraction
 
-image2 with architecture + GQL (platform calling billing directly or through GQL or REST)
+<img src='img/bx-architecture1-GraphQL.png' width='50%'>
 
 <!--
 Another attempt
@@ -90,12 +139,49 @@ Another attempt
 * another layer of feature flags
 
 In general OK, but some notable issues, mostly on the consumer side
--->
 
 but before we started the migration we added
+-->
+
 :::
 
-## Extraction - monitoring
+## Monitoring
+
+<div style='width: 50%; float: left'>
+<div></div>
+
+* standard
+  * errors (Rollbar/Sentry)
+  * performance (NewRelic)
+* **custom request instrumentation (Kibana)**
+  * method name
+  * arguments
+  * stacktrace
+  * response time (elapsed)
+  * error
+</div>
+
+<div style='width: 50%; float: left'>
+<div></div>
+
+```JSON
+{
+"payload": {
+  "method": "records_for_product",
+  "arguments":
+    "[[\"gid://platform/Product/12345\"]]",
+  "stacktrace":
+    "[
+      \"app/models/product.rb:123\",
+      \"app/services/sell_product.rb:43\"
+     ]",
+  "elapsed": 1.128494586795568,
+  "error": null
+  }
+}
+
+```
+</div>
 
 <!--
 * monitoring/instrumentation
@@ -107,30 +193,65 @@ but before we started the migration we added
 plus ofc
   * errors
   * performance (response time)
+that allowed us to track down the perf issues
 -->
 
-that allowed us to track down the perf issues
+:::
+
+.
+<div style='width: 30%; float: left'  >
+<div></div>
+
+## Monitor
+* standard stack (Rollbar/NewRelic)
+* **custom request instrumentation**
+
+</div>
+<div style='width: 30%; float: left'  >
+<div></div>
+
+## Optimize
+yet to come
+
+</div>
+<div style='width: 30%; float: left'  >
+<div></div>
+
+## Deploy
+* CI checks
+* easy & reliable rollback
+* safe env with a fallback
+* feature flags
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</div>
 
 ::::
 
-Flood of requests
+# Flood of requests
 
-* Problem: single view/job initiates many billing requests
-  * how many? Thousands!!!!
-* solution: preload & cache
-> First solution: load all and cache
+<br />
+
+<h3 class='problem'> Problem: single view/job initiates <br /> many billing requests </h3>
+### how many? Thousands!
 
 :::
 
 ## Flood of requests
 
-<div style='width: 48%; float: left'  >
+<div style='width: 50%; float: left'  >
 <div></div>
 
+#### Initial
 ```ruby
 def perform(*)
-  Product.eligible.
-    find_in_batches.each do |product|
+  products = Product.eligible
+  products.find_in_batches.each do |product|
     # one billing request per call
     DoBusinessLogic.call(product)
   end
@@ -160,15 +281,17 @@ end
 
 </div>
 
-<div style='width: 52%; float: left'>
+<div style='width: 50%; float: left'>
 <div></div>
 
 <div class='fragment'>
 <div></div>
 
+#### Optimized
 ```ruby
 def perform(*)
-  Product.eligible.find_in_batches do |batch|
+  products = Product.eligible
+  products.find_in_batches do |batch|
     # one billing request per batch
     cache_billing_records(batch).each do |p|
       # no billing requests
@@ -199,18 +322,20 @@ end
 
 :::
 
-## Flood of requests
+# Flood of requests
 
-Solution:
-Preload for a batch and cache
+<br />
+
+<h3 class='solution'> Solution: Preload for a batch and cache </h3>
+### you may need to move
+### the external query one level up
 
 ::::
 
-Flood of DB queries
-* Problem: ever element of a collection of billing records needed platform data (product)
-* Solution: client-side join (hash join)
+# Flood of DB queries
 
-> Hash joins to the rescue
+<h3 class='problem'>Problem: every element <br> of a fetched collection (billing record)
+<br/> needed platform data (product) </h3>
 
 :::
 
@@ -218,6 +343,7 @@ Flood of DB queries
 <div style='width: 50%; float: left' >
 <div></div>
 
+#### Initial
 ```ruby
 def business_logic
   billing_records = Billing::QueryService
@@ -245,6 +371,10 @@ end
 <div style='width: 50%; float: left'>
 <div></div>
 
+<div class='fragment'>
+<div></div>
+
+#### Optimized
 ```ruby
 def business_logic
   # with product assigned to billing records
@@ -277,25 +407,42 @@ end
 ```
 
 </div>
+</div>
 
 :::
 
-## Flood of DB queries
+<div style='width: 50%; float: left' >
+<div></div>
+<img src='img/widenius-left.jpg' height='100%' />
+</div>
 
+<div style='width: 50%; float: left' >
+<div></div>
+
+# Flood of DB queries?
+
+<!--
 Solution:
-Preload data from DB and join it with billing data
+Preload data from DB and hash-join it with billing data
+-->
+
+<br> <br>
+
+<h1 class=solution> Hash joins to the rescue! </h1>
+
+</div>
 
 ::::
 
-Too much data
-
-* Problem: we had generic queries that fetched all the data that is needed
-* Solution: query customization (GQL shines here), underfetching, moving the filtering to the server side
-> ?
+# Data flood
+<br>
+<h3 class='problem'>
+Problem: generic queries <br> fetching all the data that might be needed
+</h3>
 
 :::
 
-## Too much data
+## Data flood
 
 <div style='width: 50%; float: left' >
 <div></div>
@@ -327,7 +474,7 @@ end
 
 </div>
 
-<div style='width: 50%; float: left' >
+<div style='width: 50%; float: left' class='fragment' >
 <div></div>
 
 ```
@@ -361,6 +508,8 @@ end
 
 ::::
 
+## What could possibly go wrong?
+<!--
 Side story: I broke production, because I didn't test all the params and by default we were returning _all_ the data.
 How I felt
 How we reacted
@@ -368,34 +517,61 @@ What my manager did
 
   **how many records were we trying to return?**
 > You can break stuff sometimes, if you can fix it quickly
+-->
+
+<div style='width: 50%; float: left'  >
+<div></div>
+
+<!--
+ something is wrong with sidekiq workers, they're consuming too much memory
+
+ look, another master build failed to deploy to staging
+
+ DM: Hey, your build seem to break staging deployment
+
+ Hey, is platform having some issues right now?
+
+ platform is down
+-->
+<div>
+<img src='img/down1.png' width='100%' class='fragment'/>
+<img src='img/down2.png' width='100%' class='fragment'/>
+<img src='img/down3.png' width='100%' class='fragment'/>
+<img src='img/down4.png' width='100%' class='fragment'/>
+<img src='img/down5.png' width='100%' class='fragment'/>
+<img src='img/down6.png' width='100%' class='fragment'/>
+</div>
+
+
+</div>
+
+<div style='width: 50%; float: left'  >
+<div></div>
+
+<div class='fragment'>
+
+<img src='img/mem1.png' width='100%'/>
+<img src='img/mem2.png' width='100%'/>
+<img src='img/mem3.png' width='100%'/>
+
+<img src='img/db-cropped.png' width='100%'/ class=fragment>
+
+
+</div>
+
+
+</div>
 
 :::
+## What could possibly go wrong?
 
-> something is wrong with sidekiq workers, they're consuming too much memory
-
-> look, another master build failed to deploy to staging
-
-> DM: Hey, your build seem to break staging deployment
-
-> Hey, is platform having some issues right now?
-
-> platform is down
-
-:::
-
-memory screenshots
-
-:::
-
-root cause:
-
-client:
+### root cause
+```ruby
+# REST client
+get('/records', **params.slice(:product_gids))
 ```
-  get('/records', **params.slice(:product_gids))
-```
-
-query:
-```
+```ruby
+# DB query in billing
 def billing_records(product_gids: nil, gids: nil, client_gid: nil)
   scope = Product
   scope = scope.where(product_gid: product_gids) if product_gids
@@ -405,7 +581,10 @@ def billing_records(product_gids: nil, gids: nil, client_gid: nil)
 end
 ```
 
-fix:
+<div class=fragment>
+<div></div>
+
+### fix
 ```
 def billing_records(product_gids: nil, gids: nil, client_gid: nil)
   return [] if [product_gids, gids, client_gif].all?(&:blank?)
@@ -413,35 +592,99 @@ def billing_records(product_gids: nil, gids: nil, client_gid: nil)
 end
 ```
 
+</div>
+
+:::
+
+## Data flood
+
+<img src='img/dataflood.png' width='50%'/>
+
+* Solution: query customization (GQL shines here), underfetching, moving the filtering to the server side
+> ?
+
+* Tip: always test manually. Just in case you missed something in the automated test.
+
 ::::
 
-* Problem: frequently used field
+# Frequently used field
+<br>
+<h3 class='problem'> Single field was frequently used </h3>
+### (~1k hits per day)
+
+:::
+
+## Frequently used field
+
+<!--
+* Problem: frequently used field (~1k hits per day)
 * First solution: build a read model based on kafka events
 * Second solution: use local data!
 > Use the domain, Luke!
+-->
+
+<div style='width: 52%; float: left' >
+<div></div>
 
 ```
+# 1k billing hits per day
 ::Billing::QueryService
-  .first_successful_record_created_at(client)&.in_time_zone&.to_date
+  .first_successful_record_created_at(client)
+  &.in_time_zone&.to_date
 ```
-Plan
+
+#### Plan
 * add field to kafka
 * build a read model
-* backfill data
+* backfill the data
 * start using the read model
 * remove billing query
 
-Solution
+</div>
+
+<div style='width: 48%; float: left' >
+<div></div>
+
+<div class='fragment' data-fragment-index=20>
+<div></div>
+
+```
+# one local DB query
+client
+  .products.successful
+  .minimum(:start_date)
+```
+
+</div>
+<div class='fragment' data-fragment-index=10>
+<div></div>
+
+#### Solution
 * find that date in local DB
 * verify if it's really the same date
 * use it and remove billing query
 
-```
-client.products.successful.minimum(:start_date) # one DB query
-```
+</div>
+
+
+</div>
+
+<img src='img/norequest.png' class='fragment' width=100%>
+
+:::
+
+## Frequently used field
+<!-- yoda? -->
+> Use the domain, Luke!
 
 ::::
 
+# 429 Too Many Requests
+<br />
+
+<h3 class='problem'> Problem: spike of requests <br /> every Sunday evening. </h3>
+
+<!--
 * 429 on Sunday evening, every week, *couldn't replicate locally*
 * All simple solutions applied, we still have 429 every Sunday evening...
 * reminders sent to our talents (thousands of users)
@@ -453,64 +696,200 @@ client.products.successful.minimum(:start_date) # one DB query
 * worked!
 
 > Safe env on production let you fix unreproducible errors
-
+-->
 :::
 
-Problem:
+## 429 Too Many Requests
+
+<div style='width: 50%; float: left' >
+<div></div>
+
+#### Problem
 ```
+# scheduling at talent's 5 PM on Sunday
 eligible_products.each do |p|
-  WeeklyReminder.schedule(product, day: :sunday, time: 17) # scheduling at talent's 5 PM on Sunday
+  WeeklyReminder.schedule(
+    product, day: :sunday, time: '17:00'
+  )
 end
 ```
 
-1.
+
+
+<div class='fragment'>
+<h4> <span class='fragment'> Week1. </span>  Solution: preloading </h4>
+<div></div>
+
 ```
 eligible_products.find_in_batches do |batch|
-  with_billing_cycles_preloaded(batch) do
+  with_billing_records_preloaded(batch) do
     batch.each do |product|
-      WeeklyReminder.schedule(product, day: :sunday, time: 17) # scheduling at talent's 5 PM on Sunday
+      WeeklyReminder.schedule(
+        product, day: :sunday, time: '17:00'
+      )
     end
   end
 end
 ```
 
-2 & 3
-optimized GQL query +
+</div>
+
+</div>
+
+<div style='width: 50%; float: left' >
+<div></div>
+
+<div class=fragment>
+<div></div>
+
+#### Week2. Proper Solution: jitter
 ```
+# class WeeklyReminder
 def scheduling_time(*)
-  super + (SecureRandom.rand * 120 - 60).seconds
+  super +
+    (SecureRandom.rand * 120 - 60).seconds
 end
 ```
+</div>
 
-4
-Sidekiq::Limiter, window limiter (image)
+<div class=fragment>
+<div></div>
 
-and one of those (probably 3) was one of those when I deployed on Friday. I hope now you understand.
+#### Week3. Final Proper Solution
+```
+# class AnotherWeeklyReminder
+def scheduling_time(*)
+  super +
+    (SecureRandom.rand * 120 - 60).seconds
+end
+```
+</div>
+
+<div class=fragment>
+<div></div>
+
+#### Week4. Really Final Proper Solution: Rate limiting
+```ruby
+Sidekiq::Limiter.window(
+  'weekly-reminder',
+  RATE_LIMIT_COUNT,
+  RATE_LIMIT_INTERVAL,
+  wait_timeout: 2
+)
+```
+
+</div>
+</div>
+
+:::
+
+# 429 Too Many Requests
+
+<!--I don't always test my code guy -->
+
+> Leverage safe deployment & monitoring to perform experiments on production
 
 ::::
 
-Techniques that helped us:
+.
+<div style='width: 33%; float: left'  >
+<div></div>
 
-Monitor:
-* instrumentation
-* logs, error tracker, new relic
+## Monitor
+* standard stack (Rollbar/NewRelic)
+* custom request instrumentation
 
-Optimize
+</div>
+<div style='width: 33%; float: left'  >
+<div></div>
+
+## Optimize
 * preloading to avoid N+1
 * app-level hash joins
+* server-side filtering
 * using local data
 * underfetching
 * spreading the load
 
-Deploy
-* safe env with a fallback
-* feature flags with gradual enabling
-* easy & reliable rollback
+</div>
+<div style='width: 32%; float: left'  >
+<div></div>
 
-Nihil novi!
+## Deploy
+* CI checks
+* easy & reliable rollback
+* safe env with a fallback
+* feature flags
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+</div>
+
+<div class='fragment'>
+<h2 class='solution'> Nihil novi sub sole </h2>
+</div>
 
 ::::
 
+<h1 class='solution'> Nihil novi sub sole </h1>
+
+<div style='width: 30%; float: left'  >
+<div></div>
+
+## Monitor
+* standard stack (Rollbar/NewRelic)
+* custom request instrumentation
+
+</div>
+<div style='width: 40%; float: left'  >
+<div></div>
+
+## Optimize
+* preloading to avoid N+1 <br>
+<span class='fragment solution'> **every ORM** </span>
+* app-level hash joins<br>
+<span class='fragment solution'> **even MySQL has hash-join** </span>
+* server-side filtering <br />
+<span class='fragment solution'> **`find_all{}` vs `where()`** </span>
+* using local data <br />
+<span class='fragment solution'> **_The Best Request Is No Request_** </span>
+* underfetching </br>
+<span class='fragment solution'> `SELECT *`  vs <br /> `SELECT a, b` </span>
+* spreading the load
+<span class='fragment solution'> **highscalability.com post about YouTube, 2012** </span>
+
+</div>
+<div style='width: 30%; float: left'  >
+<div></div>
+
+## Deploy
+* CI checks
+* easy & reliable rollback
+* safe env with a fallback
+* feature flags
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+</div>
+
+
+::::
+
+<h1 class='solution'> FAIL OFTEN SO YOU CAN SUCCEED SOONER </h2>
+Tom Kelley
+
+
+<!--
 Nihil novi!
 Optimize
 * preloading to avoid N+1 -> any ORM
@@ -518,7 +897,10 @@ Optimize
 * using local data instead of fetching it
 * underfetching -> SELECT * vs SELECT field1, field2
 * spreading the load -> known for years (read about it )
+-->
 
+<!--
+## Summary slide about the points below
 Why not good from the beginning?
 * we started with a boring solution and then applied improvements
 * easy to overlook perf degradation while refactoring
@@ -529,3 +911,5 @@ Why not good from the beginning?
 > We're sharing this so that you don't repeat our mistakes.
 > Go, make your own mistakes, come back and share your story.
 > That's how we learn as a community and as an industry: we inspect/monitor, we do/optimize and we deploy and then we share what we found out.
+
+-->
