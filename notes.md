@@ -17,18 +17,20 @@ TODO:
 * image with stats about first, failed attempt: failed cat jump or sth like this
 ~ last slides or two with the final thoughts
   ~ _fail earlier so you can succeed sooner_ ?
-* add summaries & quotes
-  * flood of requests  ?
-  * server-side filtering -> maybe just the stats?
++ add summaries & quotes
+  + flood of requests  memcached guy
   + power of joins - some database dude
-  * local data - netscape guy
-  * use the domain  - Yoda
-  * I don't always test on prod, but when I do I do it on Friday - prod testing guy
+  + server-side filtering -> maybe just the stats?, dog
+  + use the domain  - Yoda
+  + underfetching -
+  + I don't always test on prod, but when I do I do it on Friday - prod testing guy
 * title, intro & about
 * images for talking
 * add funny images
 
 * which week was the one with Friday deploy?
+  * 16:03 Aug 7th https://github.com/toptal/platform/pull/42515 -> first optimization
+  * 15:43 Aug 28th https://github.com/toptal/platform/pull/41912 -> last optimization
 * make sure you have time to tell about your feelings
 
 Visual

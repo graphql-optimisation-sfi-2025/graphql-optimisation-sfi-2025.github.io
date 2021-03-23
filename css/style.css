@@ -53,7 +53,7 @@ body {
 
 .image-overlay {
     margin: none;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.75);
     text-shadow: none;
     padding: 2% !important;
     padding: 400px;
@@ -69,4 +69,9 @@ body {
 
 .solution{
   color: #f77646 !important;
+}
+
+
+.noproblem{
+  color: #0a3c9b !important;
 }

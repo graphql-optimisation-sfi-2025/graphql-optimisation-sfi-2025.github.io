@@ -1,22 +1,93 @@
-# Monitor, Optimize and Deploy
+<section
+  data-background-image="img/engine.jpg"
+  style='min-height=120% important!'
+>
+  <div class='image-overlay' style='margin-top: -0px;'>
 
-### (on Friday)
+<h1 style="font-size:150px"> Monitor, Optimize and&nbsp;Deploy <br /> <span class='problem'>(on Friday)</span> </h1>
+
+   <hr/>
+   <h2> Maciek Rząsa <a href='https://twitter.com/mjrzasa'>@mjrzasa</a> </h2>
+   <h2> Toptal </h2>
+
+   <br>
+<small> Photo by <a href="https://unsplash.com/@timmossholder?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Tim Mossholder</a> on <a href="/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> </small>
+  </div>
+
+</section>
+
+
 
 ::::
 
-Friday afternoon, deploy or not to deploy?
-
-:::
-
-two fullscreen images - one about the dillema, another about the kitten
+<h1 style='font-size:300px'> Friday  <span class='problem'>16:03 </span>  <h1>
 
 ::::
-intro/about
+
+<section data-background-image="img/cat-scared-cropped.jpg">
+
+<small style='margin-top:1000px; margin-right:1200px;'>Photo by <a href="https://unsplash.com/@snowboardinec?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Max Baskakov</a> on <a href="/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> </small>
+
+</section>
+
 ::::
 
-full-screen image with a monolith
+<div style='width: 30%; float: left'  >
+  <img src='img/Maciek-public.png' width=100% class='about me'></img>
+  <img src='img/logo-toptal.png' width=100% class='about'></img>
+  <img src='img/logo-rrug.png' width=100% class='about'></img>
+</div>
 
-:::
+<div style='width: 70%; float: left'>
+<div></div>
+
+<div>
+<div></div>
+
+# Backend Engineer @&nbsp;Toptal
+
+<hr />
+
+* at work
+ * Ruby & Postgres & Elasticsearch
+ * service extraction
+
+* after work
+ * Rzeszów Ruby User Group ([rrug.pl](http://rrug.pl))
+ * Rzeszów University of Technology
+ * _software that matters_, agile
+ * text processing, distributed systems
+
+  </div>
+</div>
+
+<div>
+
+::::
+
+<section
+  data-background-image="img/chusta-niedzwiedz.jpg"
+  style='min-height=100% important!'
+>
+
+
+::::
+
+<h1 style='font-size: 100px'> Toptal <span class='problem' style='font-size: 290px'> Platform </span> </h1>
+
+::::
+
+<section
+  data-background-image="img/el-capitan.jpg"
+  style='min-height=100% important!'>
+
+<small> Image source: wikimedia.org </small>
+
+
+</section>
+
+
+::::
 
 ## Extraction
 
@@ -43,14 +114,14 @@ Safe environment
 <div></div>
 
 ## Monitor
-yet to come
+wait for it
 
 </div>
 <div style='width: 30%; float: left'  >
 <div></div>
 
 ## Optimize
-yet to come
+wait for it
 
 </div>
 <div style='width: 30%; float: left'  >
@@ -69,9 +140,6 @@ yet to come
 <br />
 <br />
 </div>
-:::
-
-maybe a slide with climbing belay
 
 :::
 
@@ -116,7 +184,15 @@ end
 
 :::
 
-Image/slide for the first attempt
+## Extraction: First attempt
+
+<img src='img/fail.gif' height='600px'>
+
+:::
+
+## Extraction: First attempt
+
+<img src='img/fail.jpeg' height='600px'>
 
 <!--
 
@@ -128,7 +204,7 @@ First attempt
 
 ::::
 
-## Extraction
+## Extraction: GraphQL
 
 <img src='img/bx-architecture1-GraphQL.png' width='50%'>
 
@@ -145,7 +221,7 @@ but before we started the migration we added
 
 :::
 
-## Monitoring
+## Extraction: Monitoring
 
 <div style='width: 50%; float: left'>
 <div></div>
@@ -184,6 +260,13 @@ but before we started the migration we added
 </div>
 
 <!--
+issues to detect
+* `Billing Query Service GraphQL error: 429 Too Many Requests`
+* multi-secon elapsed time
+* slow response on new relic (check a single slow transaction)
+
+
+<!--
 * monitoring/instrumentation
   * source (stacktrace)
   * params
@@ -211,7 +294,7 @@ that allowed us to track down the perf issues
 <div></div>
 
 ## Optimize
-yet to come
+wait for it
 
 </div>
 <div style='width: 30%; float: left'  >
@@ -230,6 +313,10 @@ yet to come
 <br />
 <br />
 </div>
+
+::::
+
+<h1 style="font-size:250px"> Optimize </h1>
 
 ::::
 
@@ -322,13 +409,32 @@ end
 
 :::
 
-# Flood of requests
 
-<br />
 
-<h3 class='solution'> Solution: Preload for a batch and cache </h3>
-### you may need to move
-### the external query one level up
+<div style='width: 50%; float: left' >
+<div></div>
+<img src='img/Bradfitz-left.jpg' height='100%' />
+</div>
+
+<div style='width: 50%; float: left' >
+<div></div>
+
+# Flood of requests?
+
+<!--
+Solution:
+Preload data from DB and hash-join it with billing data
+-->
+
+<br>
+
+<h1 class='solution'> Preload for a batch and (mem)cache </h1>
+
+<br/>
+<small> &#9664; Brad Fitzpatrick, Memcached. Image source: wikipedia.org</small>
+
+</div>
+
 
 ::::
 
@@ -429,6 +535,8 @@ Preload data from DB and hash-join it with billing data
 <br> <br>
 
 <h1 class=solution> Hash joins to the rescue! </h1>
+
+<small> &#9664; Ulf Michael Widenius, MySQL. Image source: wikipedia.org</small>
 
 </div>
 
@@ -537,7 +645,6 @@ What my manager did
 <img src='img/down1.png' width='100%' class='fragment'/>
 <img src='img/down2.png' width='100%' class='fragment'/>
 <img src='img/down3.png' width='100%' class='fragment'/>
-<img src='img/down4.png' width='100%' class='fragment'/>
 <img src='img/down5.png' width='100%' class='fragment'/>
 <img src='img/down6.png' width='100%' class='fragment'/>
 </div>
@@ -596,25 +703,52 @@ end
 
 :::
 
-## Data flood
+<div style='width: 55%; float: left' >
+<div></div>
+<img src='img/dataflood.png' width='100%'/>
+</div>
 
-<img src='img/dataflood.png' width='50%'/>
+<div style='width: 45%; float: left' >
+<div></div>
 
-* Solution: query customization (GQL shines here), underfetching, moving the filtering to the server side
-> ?
+# data flood?
 
-* Tip: always test manually. Just in case you missed something in the automated test.
+<h2 class=solution> query customization & underfetching </h2>
+<hr />
+<h2 class='solution'> filtering on the server side </h2>
+
+
+</div>
+
+:::
+
+<div style='width: 55%; float: left' >
+<div></div>
+<img src='img/dog-no-idea.jpg' width='100%'/>
+</div>
+
+<div style='width: 45%; float: left' >
+<div></div>
+
+# Tip?
+</br>
+
+<h1 class=solution> Always test manually. Always. </h1>
+
+</div>
+
+
 
 ::::
 
-# Frequently used field
+# Frequently needed data
 <br>
-<h3 class='problem'> Single field was frequently used </h3>
+<h3 class='problem'> Problem: Single field was frequently used </h3>
 ### (~1k hits per day)
 
 :::
 
-## Frequently used field
+## Frequently needed data
 
 <!--
 * Problem: frequently used field (~1k hits per day)
@@ -626,7 +760,7 @@ end
 <div style='width: 52%; float: left' >
 <div></div>
 
-```
+```ruby
 # 1k billing hits per day
 ::Billing::QueryService
   .first_successful_record_created_at(client)
@@ -648,7 +782,7 @@ end
 <div class='fragment' data-fragment-index=20>
 <div></div>
 
-```
+```ruby
 # one local DB query
 client
   .products.successful
@@ -673,16 +807,41 @@ client
 
 :::
 
-## Frequently used field
-<!-- yoda? -->
-> Use the domain, Luke!
+<div style='width: 50%; float: left' >
+<div></div>
+<img src='img/Yoda.webp' width='100%' />
+</div>
+
+<div style='width: 50%; float: left' >
+<div></div>
+
+# Data needed frequently?
+
+<!--
+Solution:
+Preload data from DB and hash-join it with billing data
+-->
+
+<br> <br>
+
+<h1 class=solution> Use the domain, Luke! </h1>
+
+<br />
+<br />
+<br />
+<br />
+<small> &#9664;  Image source: starwars.fandom.com </small>
+
+</div>
 
 ::::
 
 # 429 Too Many Requests
 <br />
 
-<h3 class='problem'> Problem: spike of requests <br /> every Sunday evening. </h3>
+<h3 class='problem'> Problem: spike of requests <br />
+every Sunday evening <br>
+</h3>
 
 <!--
 * 429 on Sunday evening, every week, *couldn't replicate locally*
@@ -734,6 +893,8 @@ end
 
 </div>
 
+<img class='fragment current-visible' src='img/429.jpeg' height=800px style='position: absolute; top: 130px; left: 350px;' / -->
+
 </div>
 
 <div style='width: 50%; float: left' >
@@ -752,6 +913,8 @@ end
 ```
 </div>
 
+<img class='fragment current-visible' src='img/429-dogs.jpg' height=800px style='position: absolute; top: 130px; left: 300px;' / -->
+
 <div class=fragment>
 <div></div>
 
@@ -764,6 +927,8 @@ def scheduling_time(*)
 end
 ```
 </div>
+
+<img class='fragment current-visible' src='img/429-pandas.jpg' height=800px style='position: absolute; top: 130px; left: 450px;' / -->
 
 <div class=fragment>
 <div></div>
@@ -783,12 +948,35 @@ Sidekiq::Limiter.window(
 
 :::
 
-# 429 Too Many Requests
+<div style='width: 45%; float: left' >
+<div></div>
+<img src='img/test-on-production.png' width='100%' />
+</div>
 
-<!--I don't always test my code guy -->
+<div style='width: 55%; float: left' >
+<div></div>
+
+# 429 Too Many Requests?
+
+<!--
+Solution:
+Preload data from DB and hash-join it with billing data
+-->
+
+<br>
+<br>
+
+<h2 class=solution> I don't always test on production </h2>
+<h2 > but when I do, I run tests on Friday </h2>
+
+</div>
+
+
+
+<!--I don't always test my code guy
 
 > Leverage safe deployment & monitoring to perform experiments on production
-
+-->
 ::::
 
 .
