@@ -24,11 +24,11 @@ TODO:
   + use the domain  - Yoda
   + underfetching -
   + I don't always test on prod, but when I do I do it on Friday - prod testing guy
-* title, intro & about
-* images for talking
-* add funny images
++ title, intro & about
++ images for talking
++ add funny images
 
-* which week was the one with Friday deploy?
++ which week was the one with Friday deploy?
   * 16:03 Aug 7th https://github.com/toptal/platform/pull/42515 -> first optimization
   * 15:43 Aug 28th https://github.com/toptal/platform/pull/41912 -> last optimization
 * make sure you have time to tell about your feelings
@@ -40,8 +40,8 @@ Visual
 
 
 Intro
-* focus on monitoring
-* symptoms of failures (e.g 429 errors)
++ focus on monitoring
++ symptoms of failures (e.g 429 errors)
 
 Story
 * show the cycle of monitoring (charts) - optimizing (code) - deploy and again monitoring (charts)
