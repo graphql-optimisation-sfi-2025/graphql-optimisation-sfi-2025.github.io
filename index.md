@@ -4,7 +4,8 @@
 >
   <div class='image-overlay' style='margin-top: -0px;'>
 
-<h1 style="font-size:150px"> Monitor, Optimize and&nbsp;Deploy <br /> <span class='problem'>(on Friday)</span> </h1>
+<h2> API Optimization Tale: </h2>
+<h1 style="font-size:150px"> Monitor, Fix and&nbsp;Deploy <br /> <span class='problem'>(on Friday)</span> </h1>
 
    <hr/>
    <h2> Maciek Rząsa <a href='https://twitter.com/mjrzasa'>@mjrzasa</a> </h2>
@@ -81,7 +82,7 @@
   data-background-image="img/el-capitan.jpg"
   style='min-height=100% important!'>
 
-<small> Image source: wikimedia.org </small>
+<small style='margin-top:-1000px; margin-right:1200px;'> Image source: wikimedia.org </small>
 
 
 </section>
@@ -117,10 +118,10 @@ Safe environment
 wait for it
 
 </div>
-<div style='width: 30%; float: left'  >
+<div style='width: 40%; float: left'  >
 <div></div>
 
-## Optimize
+## Fix: Optimize
 wait for it
 
 </div>
@@ -155,7 +156,7 @@ class Product < ApplicationRecord
 end
 
 class BillingRecord < ApplicationRecord
-  has_one :product
+  belongs_to :product
 end
 ```
 
@@ -169,7 +170,7 @@ end
 class Product < ApplicationRecord
   def billing_records
     @billing_records ||=
-      Billing::QueryService
+      ::Billing::QueryService
         .billing_records_for_products(self)
   end
 end
@@ -186,7 +187,7 @@ end
 
 ## Extraction: First attempt
 
-<img src='img/fail.gif' height='600px'>
+<img  class=fragment src='img/fail.gif' height='600px'>
 
 :::
 
@@ -290,10 +291,10 @@ that allowed us to track down the perf issues
 * **custom request instrumentation**
 
 </div>
-<div style='width: 30%; float: left'  >
+<div style='width: 40%; float: left'  >
 <div></div>
 
-## Optimize
+## Fix: Optimize
 wait for it
 
 </div>
@@ -358,7 +359,7 @@ end
 class Product < ApplicationRecord
   def billing_records
     @billing_records ||=
-      Billing::QueryService
+      ::Billing::QueryService
        .billing_records_for_products(self)
   end
 end
@@ -388,16 +389,15 @@ def perform(*)
 end
 
 def cache_billing_records(products)
-  # array of billing records
   indexed_records =
-    Billing::QueryService
+    ::Billing::QueryService
       .billing_records_for_products(
         *products
       )
       .group_by(&:product_gid)
 
   products.each do |product|
-    e.cache_billing_records!(
+    product.cache_billing_records!(
       indexed_records[product.gid].to_a
     )
   end
@@ -452,7 +452,7 @@ Preload data from DB and hash-join it with billing data
 #### Initial
 ```ruby
 def business_logic
-  billing_records = Billing::QueryService
+  billing_records = ::Billing::QueryService
     .billing_records_for_products(*products)
 
   billing_records.each do |r|
@@ -483,9 +483,8 @@ end
 #### Optimized
 ```ruby
 def business_logic
-  # with product assigned to billing records
   # one query to products table here
-  billing_records = Billing::QueryService
+  billing_records = ::Billing::QueryService
     .billing_records_for_products(*products)
 
   billing_records.each do |r|
@@ -495,7 +494,8 @@ end
 ```
 
 ```ruby
-def product_billing_records(products)
+# Billing::QueryService
+def billing_records_for_products(products)
   products_by_gid =
     products.index_by(&:gid)
 
@@ -680,7 +680,7 @@ get('/records', **params.slice(:product_gids))
 ```ruby
 # DB query in billing
 def billing_records(product_gids: nil, gids: nil, client_gid: nil)
-  scope = Product
+  scope = ::BillingRecord
   scope = scope.where(product_gid: product_gids) if product_gids
   scope = scope.where(gid: gids) if gids
   scope = scope.where(client_gid: client_gid) if client_gid
@@ -694,7 +694,7 @@ end
 ### fix
 ```
 def billing_records(product_gids: nil, gids: nil, client_gid: nil)
-  return [] if [product_gids, gids, client_gif].all?(&:blank?)
+  return [] if [product_gids, gids, client_gid].all?(&:blank?)
   # ...
 end
 ```
@@ -991,7 +991,7 @@ Preload data from DB and hash-join it with billing data
 <div style='width: 33%; float: left'  >
 <div></div>
 
-## Optimize
+## Fix: Optimize
 * preloading to avoid N+1
 * app-level hash joins
 * server-side filtering
@@ -1037,7 +1037,7 @@ Preload data from DB and hash-join it with billing data
 <div style='width: 40%; float: left'  >
 <div></div>
 
-## Optimize
+## Fix: Optimize
 * preloading to avoid N+1 <br>
 <span class='fragment solution'> **every ORM** </span>
 * app-level hash joins<br>
@@ -1073,8 +1073,32 @@ Preload data from DB and hash-join it with billing data
 
 ::::
 
+<div style='width: 50%; float: left' >
+<div></div>
+<img src='img/climb.webp' height='1200px' style='margin-top:-199px' />
+</div>
+
+<div style='width: 50%; float: left' >
+<div></div>
+
+
+<!--
+Solution:
+Preload data from DB and hash-join it with billing data
+-->
+
+<br> <br>
+
 <h1 class='solution'> FAIL OFTEN SO YOU CAN SUCCEED SOONER </h2>
 Tom Kelley
+
+<br />
+<br />
+<br />
+<br />
+<small> Photo: snikologiannis/Flickr; http://ow.ly/CHwhd</small>
+
+</div>
 
 
 <!--
