@@ -425,6 +425,101 @@ Preload data from DB and hash-join it with billing data
 </div>
 
 
+::::
+
+# Frequently needed data
+<br>
+<h3 class='problem'> Problem: Single field was frequently used </h3>
+### (~1k hits per day)
+
+:::
+
+## Frequently needed data
+
+<!--
+* Problem: frequently used field (~1k hits per day)
+* First solution: build a read model based on kafka events
+* Second solution: use local data!
+> Use the domain, Luke!
+-->
+
+<div style='width: 52%; float: left' >
+<div></div>
+
+```ruby
+# 1k billing hits per day
+::Billing::QueryService
+  .first_successful_record_created_at(client)
+  &.in_time_zone&.to_date
+```
+
+#### Plan
+* add field to kafka
+* build a read model
+* backfill the data
+* start using the read model
+* remove billing query
+
+</div>
+
+<div style='width: 48%; float: left' >
+<div></div>
+
+<div class='fragment' data-fragment-index=20>
+<div></div>
+
+```ruby
+# one local DB query
+client
+  .products.successful
+  .minimum(:start_date)
+```
+
+</div>
+<div class='fragment' data-fragment-index=10>
+<div></div>
+
+#### Solution
+* find that date in local DB
+* verify if it's really the same date
+* use it and remove billing query
+
+</div>
+
+
+</div>
+
+<img src='img/norequest.png' class='fragment' width=100%>
+
+:::
+
+<div style='width: 50%; float: left' >
+<div></div>
+<img src='img/Yoda.webp' width='100%' />
+</div>
+
+<div style='width: 50%; float: left' >
+<div></div>
+
+# Data needed frequently?
+
+<!--
+Solution:
+Preload data from DB and hash-join it with billing data
+-->
+
+<br> <br>
+
+<h1 class=solution> Use the domain, Luke! </h1>
+
+<br />
+<br />
+<br />
+<br />
+<small> &#9664;  Image source: starwars.fandom.com </small>
+
+</div>
+
 
 
 
@@ -627,101 +722,6 @@ end
 </div>
 
 
-
-::::
-
-# Frequently needed data
-<br>
-<h3 class='problem'> Problem: Single field was frequently used </h3>
-### (~1k hits per day)
-
-:::
-
-## Frequently needed data
-
-<!--
-* Problem: frequently used field (~1k hits per day)
-* First solution: build a read model based on kafka events
-* Second solution: use local data!
-> Use the domain, Luke!
--->
-
-<div style='width: 52%; float: left' >
-<div></div>
-
-```ruby
-# 1k billing hits per day
-::Billing::QueryService
-  .first_successful_record_created_at(client)
-  &.in_time_zone&.to_date
-```
-
-#### Plan
-* add field to kafka
-* build a read model
-* backfill the data
-* start using the read model
-* remove billing query
-
-</div>
-
-<div style='width: 48%; float: left' >
-<div></div>
-
-<div class='fragment' data-fragment-index=20>
-<div></div>
-
-```ruby
-# one local DB query
-client
-  .products.successful
-  .minimum(:start_date)
-```
-
-</div>
-<div class='fragment' data-fragment-index=10>
-<div></div>
-
-#### Solution
-* find that date in local DB
-* verify if it's really the same date
-* use it and remove billing query
-
-</div>
-
-
-</div>
-
-<img src='img/norequest.png' class='fragment' width=100%>
-
-:::
-
-<div style='width: 50%; float: left' >
-<div></div>
-<img src='img/Yoda.webp' width='100%' />
-</div>
-
-<div style='width: 50%; float: left' >
-<div></div>
-
-# Data needed frequently?
-
-<!--
-Solution:
-Preload data from DB and hash-join it with billing data
--->
-
-<br> <br>
-
-<h1 class=solution> Use the domain, Luke! </h1>
-
-<br />
-<br />
-<br />
-<br />
-<small> &#9664;  Image source: starwars.fandom.com </small>
-
-</div>
 
 ::::
 
@@ -1033,7 +1033,7 @@ Why not good from the beginning?
 <div></div>
 
 
-<h1 style="font-size:300px; margin-top:200px"> Q&A </h1>
+<h1 style="font-size:300px; margin-top:80px"> Q&A </h1>
 
 
   </div>
