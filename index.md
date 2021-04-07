@@ -2,7 +2,7 @@
   data-background-image="img/engine.jpg"
   style='min-height=120% important!'
 >
-  <div class='image-overlay' style='margin-top: -0px;'>
+  <div class='image-overlay' >
 
 <h2> API Optimization Tale: </h2>
 <h1 style="font-size:150px"> Monitor, Fix and&nbsp;Deploy <br /> <span class='problem'>(on Friday)</span> </h1>
@@ -34,7 +34,7 @@
 ::::
 
 <div style='width: 30%; float: left'  >
-  <img src='img/Maciek-public.png' width=100% class='about me'></img>
+  <img src='img/Maciek-public.png' width=100% class='about'></img>
   <img src='img/logo-toptal.png' width=100% class='about'></img>
   <img src='img/logo-rrug.png' width=100% class='about'></img>
 </div>
@@ -63,14 +63,6 @@
 </div>
 
 <div>
-
-::::
-
-<section
-  data-background-image="img/chusta-niedzwiedz.jpg"
-  style='min-height=100% important!'
->
-
 
 ::::
 
@@ -107,7 +99,7 @@ Safe environment
 * fallback
 -->
 
-<img src='img/bx-architecture1-REST.png'>
+<img src='img/bx-architecture1-REST.png' height=920 >
 
 :::
 .
@@ -411,7 +403,7 @@ end
 
 
 
-<div style='width: 50%; float: left' >
+<div style='width: 50%; float: left' class='full-height-image-background'>
 <div></div>
 <img src='img/Bradfitz-left.jpg' height='100%' />
 </div>
@@ -517,9 +509,9 @@ end
 
 :::
 
-<div style='width: 50%; float: left' >
+<div style='width: 50%; float: left' class='full-height-image-background'>
 <div></div>
-<img src='img/widenius-left.jpg' height='100%' />
+<img src='img/widenius-left-cropped.jpg' height='100%' />
 </div>
 
 <div style='width: 50%; float: left' >
@@ -1075,7 +1067,7 @@ Preload data from DB and hash-join it with billing data
 
 <div style='width: 50%; float: left' >
 <div></div>
-<img src='img/climb.webp' height='1200px' style='margin-top:-199px' />
+<img src='img/climb-cropped.png' width='90%' />
 </div>
 
 <div style='width: 50%; float: left' >

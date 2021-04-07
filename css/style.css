@@ -71,7 +71,10 @@ body {
   color: #f77646 !important;
 }
 
-
 .noproblem{
   color: #0a3c9b !important;
+}
+
+.full-height-image-background {
+  margin-top: -30px !important;
 }

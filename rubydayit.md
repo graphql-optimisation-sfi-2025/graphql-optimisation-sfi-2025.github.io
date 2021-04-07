@@ -2,17 +2,17 @@
   data-background-image="img/engine.jpg"
   style='min-height=120% important!'
 >
-  <div class='image-overlay' style='margin-top: -0px;'>
-
-<h2> API Optimization Tale: </h2>
-<h1 style="font-size:150px"> Monitor, Fix and&nbsp;Deploy <br /> <span class='problem'>(on Friday)</span> </h1>
-
-   <hr/>
-   <h2> Maciek Rząsa <a href='https://twitter.com/mjrzasa'>@mjrzasa</a> </h2>
-   <h2> Toptal </h2>
-
-   <br>
-<small> Photo by <a href="https://unsplash.com/@timmossholder?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Tim Mossholder</a> on <a href="/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> </small>
+  <div class='image-overlay'>
+    <h2> API Optimization Tale: </h2>
+    <h1 style="font-size:150px">
+      Monitor, Fix and&nbsp;Deploy <br />
+      <span class='problem'>(on Friday)</span>
+    </h1>
+    <hr>
+    <h2> Maciek Rząsa <a href='https://twitter.com/mjrzasa'>@mjrzasa</a> </h2>
+    <h2> Toptal </h2>
+    <br />
+    <small> Photo by <a href="https://unsplash.com/@timmossholder?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Tim Mossholder</a> on <a href="/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> </small>
   </div>
 
 </section>
@@ -21,7 +21,9 @@
 
 ::::
 
-<h1 style='font-size:300px'> Friday  <span class='problem'>16:03 </span>  <h1>
+<section>
+<h1 style='font-size:300px'> Friday  <span class='problem'>16:03 </span>  </h1>
+</section>
 
 ::::
 
@@ -38,7 +40,7 @@
   style='min-height=100% important!'
 >
 
-
+</section>
 
 ::::
 <section
@@ -56,7 +58,7 @@
 <section
   data-background-image="img/toptal.png"
   style='min-height=100% important!'
->
+> </section>
 ::::
 
 <h1 style='font-size: 100px'> Toptal <span class='problem' style='font-size: 290px'> Platform </span> </h1>
@@ -92,7 +94,7 @@ Safe environment
 * fallback
 -->
 
-<img src='img/bx-architecture1-REST.png'>
+<img src='img/bx-architecture1-REST.png' height=920 >
 
 :::
 
@@ -398,12 +400,12 @@ end
 
 
 
-<div style='width: 50%; float: left' >
+<div style='width: 50%; float: left' class='full-height-image-background'>
 <div></div>
-<img src='img/widenius-left.jpg' height='100%' />
+<img src='img/widenius-left-cropped.jpg' height='100%' />
 </div>
 
-<div style='width: 50%; float: left' >
+<div style='width: 50%; float: left'  >
 <div></div>
 
 # Flood of requests?
@@ -597,6 +599,18 @@ end
 </div>
 
 <!--And I deployed and waited, and... -->
+
+::::
+
+<section data-background-image="img/summer.jpg">
+
+<small style='margin-top:1000px; margin-right:1200px;'>
+
+Photo by <a href="https://unsplash.com/@ejleusink?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Erik-Jan Leusink</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
+</small>
+
+</section>
 
 ::::
 
@@ -959,9 +973,9 @@ Preload data from DB and hash-join it with billing data
 
 ::::
 
-<div style='width: 50%; float: left' >
+<div style='width: 50%; float: left' class='full-height-image-background' >
 <div></div>
-<img src='img/climb.webp' height='1200px' style='margin-top:-199px' />
+<img src='img/climb-cropped.png' width='90%' />
 </div>
 
 <div style='width: 50%; float: left' >
