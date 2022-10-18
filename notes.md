@@ -45,3 +45,21 @@ Intro
 
 Story
 * show the cycle of monitoring (charts) - optimizing (code) - deploy and again monitoring (charts)
+
+# Speaker notes
+
+## Production failure
+  * the hottest day of 2020
+  * Tuesday, 28 Jul
+
+## Summary
+  * old techniques in new setting
+  * threefold
+  * learning
+    * you need production traffic to see performance issues
+  * simplicity
+    * boring REST
+    * generic minimal-surface API
+  * tradeoffs
+    * jitter
+  * I told you about mistakes we made. Now you don't have to repeat our mistakes. Istead, go back to your work, and make your own mistakes. And if you want to know if you can safely make them I propose you a quick sanity check. Just think if you can deploy on Friday
