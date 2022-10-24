@@ -62,4 +62,23 @@ Story
     * generic minimal-surface API
   * tradeoffs
     * jitter
-  * I told you about mistakes we made. Now you don't have to repeat our mistakes. Istead, go back to your work, and make your own mistakes. And if you want to know if you can safely make them I propose you a quick sanity check. Just think if you can deploy on Friday
+  * I told you about mistakes we made. Now you don't have to repeat our mistakes. Instead, go back to your work, and make your own mistakes. And if you want to know if you can safely make them I propose you a quick sanity check. Just think if you can deploy on Friday
+
+
+
+## Sue 18th Oct
+
+* good: hand gestures
+* optimize => optimise
+* customization => customisation
+* pronounciation
+  * I come from Rzeszów
+  * records => with `e` not with `i`
+  * reproduce => riproduce
+  * conquer => konker not konkłer
+  * **make** your own mistakes
+
+* rehearse:
+  * hash join part
+  * 429 part, make it short
+  * make notes for the conclusions triad

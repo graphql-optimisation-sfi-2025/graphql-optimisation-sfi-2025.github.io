@@ -4,7 +4,7 @@
 >
   <div class='image-overlay' >
 
-<h2> API Optimization Tale: </h2>
+<h2> API Optimisation Tale: </h2>
 <h1 style="font-size:150px"> Monitor, Fix and&nbsp;Deploy <br /> <span class='problem'>(on Friday)</span> </h1>
 
    <hr/>
@@ -286,7 +286,7 @@ that allowed us to track down the perf issues
 <div style='width: 40%; float: left'  >
 <div></div>
 
-## Fix: Optimize
+## Fix: Optimise
 wait for it
 
 </div>
@@ -309,7 +309,7 @@ wait for it
 
 ::::
 
-<h1 style="font-size:250px"> Optimize </h1>
+<h1 style="font-size:250px"> Optimise </h1>
 
 ::::
 
@@ -367,7 +367,7 @@ end
 <div class='fragment'>
 <div></div>
 
-#### Optimized
+#### Optimised
 ```ruby
 def perform(*)
   products = Product.eligible
@@ -472,7 +472,7 @@ end
 <div class='fragment'>
 <div></div>
 
-#### Optimized
+#### Optimised
 ```ruby
 def business_logic
   # one query to products table here
@@ -705,7 +705,7 @@ end
 
 # data flood?
 
-<h2 class=solution> query customization & underfetching </h2>
+<h2 class=solution> query customisation & underfetching </h2>
 <hr />
 <h2 class='solution'> filtering on the server side </h2>
 
@@ -983,7 +983,7 @@ Preload data from DB and hash-join it with billing data
 <div style='width: 33%; float: left'  >
 <div></div>
 
-## Fix: Optimize
+## Fix: Optimise
 * preloading to avoid N+1
 * app-level hash joins
 * server-side filtering
@@ -1029,7 +1029,7 @@ Preload data from DB and hash-join it with billing data
 <div style='width: 40%; float: left'  >
 <div></div>
 
-## Fix: Optimize
+## Fix: Optimise
 * preloading to avoid N+1 <br>
 <span class='fragment solution'> **every ORM** </span>
 * app-level hash joins<br>
@@ -1095,7 +1095,7 @@ Tom Kelley
 
 <!--
 Nihil novi!
-Optimize
+Optimise
 * preloading to avoid N+1 -> any ORM
 * app-level hash joins -> even MySQL has hash joins now
 * using local data instead of fetching it
@@ -1109,11 +1109,11 @@ Why not good from the beginning?
 * we started with a boring solution and then applied improvements
 * easy to overlook perf degradation while refactoring
 * hard to find perf issues by staring at the code
-* DRY vs YAGNI - one, big universal endpoint vs several similar, smaller ones optimized for a job (btw GQL solves this)
-* => we could rediscover all those things in the "Optimize" stage, because of the hidden work of the "Monitor" and "Deploy" stages
+* DRY vs YAGNI - one, big universal endpoint vs several similar, smaller ones optimised for a job (btw GQL solves this)
+* => we could rediscover all those things in the "Optimise" stage, because of the hidden work of the "Monitor" and "Deploy" stages
 
 > We're sharing this so that you don't repeat our mistakes.
 > Go, make your own mistakes, come back and share your story.
-> That's how we learn as a community and as an industry: we inspect/monitor, we do/optimize and we deploy and then we share what we found out.
+> That's how we learn as a community and as an industry: we inspect/monitor, we do/optimise and we deploy and then we share what we found out.
 
 -->
