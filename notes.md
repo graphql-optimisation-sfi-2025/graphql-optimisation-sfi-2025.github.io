@@ -55,11 +55,11 @@ Story
 ## Summary
   * old techniques in new setting
   * threefold
-  * learning
-    * you need production traffic to see performance issues
   * simplicity
     * boring REST
     * generic minimal-surface API
+  * learning
+    * you need production traffic to see performance issues
   * tradeoffs
     * jitter
   * I told you about mistakes we made. Now you don't have to repeat our mistakes. Instead, go back to your work, and make your own mistakes. And if you want to know if you can safely make them I propose you a quick sanity check. Just think if you can deploy on Friday

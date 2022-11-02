@@ -1,18 +1,20 @@
 <section
-  data-background-image="img/engine.jpg"
+  data-background-image="img/wrench-nadia.jpg"
   style='min-height=120% important!'
 >
-  <div class='image-overlay'>
-    <h2> API Optimization Tale: </h2>
-    <h1 style="font-size:150px">
+  <div class='image-overlay title'>
+    <h2 class='subtitle'> API Optimisation Tale: </h2>
+    <h1 style="font-size:130px">
       Monitor, Fix and&nbsp;Deploy <br />
       <span class='problem'>(on Friday)</span>
     </h1>
     <hr>
-    <h2> Maciek Rząsa <a href='https://twitter.com/mjrzasa'>@mjrzasa</a> </h2>
-    <h2> Toptal </h2>
+    <h2> Maciek Rząsa &nbsp;&middot; &nbsp;Toptal </h2>
+    <h2>  <a href='https://twitter.com/mjrzasa'>@mjrzasa</a> </h2>
     <br />
-    <small> Photo by <a href="https://unsplash.com/@timmossholder?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Tim Mossholder</a> on <a href="/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> </small>
+    <br />
+
+    <small style="font-size:20px"> Photo by <a href="https://pixabay.com/pl/users/padrinan-1694659/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4929711"> Miguel Á. Padriñán</a> from <a href="https://pixabay.com/pl//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4929711"> Pixabay</a> </small>
   </div>
 
 </section>
@@ -35,10 +37,53 @@
 
 ::::
 
+
 <section
-  data-background-image="img/chusta-niedzwiedz.jpg"
+  data-background-image="img/books.png"
   style='min-height=100% important!'
 >
+
+</section>
+
+::::
+
+<section
+  data-background-image="img/witcher.jpg"
+  style='min-height=100% important!'
+>
+
+<small style='margin-bottom:1300px; margin-left:1400px;'> &copy; Photo by Natalia Rząsa </small>
+</section>
+
+::::
+
+<section
+  data-background-image="img/wspin.jpg"
+  style='min-height=100% important!'
+>
+
+<small style='margin-bottom:1300px; margin-left:1400px;'> &copy; Photo by Natalia Rząsa </small>
+</section>
+
+::::
+
+<section
+  data-background-image="img/bieszczady.png"
+  style='min-height=100% important!'
+>
+
+<small style='margin-top:1300px; margin-right:1400px;'> &copy; Photo by Natalia Rząsa </small>
+</section>
+
+
+::::
+
+<section
+  data-background-image="img/kids.jpg"
+  style='min-height=100% important!'
+>
+
+<small style='margin-bottom:1300px; margin-left:1400px;'> &copy; Photo by Natalia Rząsa </small>
 
 </section>
 
@@ -150,7 +195,7 @@ wait for it
 <div style='width: 40%; float: left'  >
 <div></div>
 
-## Fix: Optimize
+## Fix: optimise
 wait for it
 
 </div>
@@ -188,7 +233,7 @@ wait for it
 
 First attempt
 * replace AR associations with REST calls
-* deduplicate & optimize REST calls
+* deduplicate & optimise REST calls
 * epic failure (give the numbers)
 -->
 
@@ -283,7 +328,7 @@ that allowed us to track down the perf issues
 <div style='width: 40%; float: left'  >
 <div></div>
 
-## Fix: Optimize
+## Fix: optimise
 wait for it
 
 </div>
@@ -306,7 +351,7 @@ wait for it
 
 ::::
 
-<h1 style="font-size:250px"> Optimize </h1>
+<h1 style="font-size:250px"> optimise </h1>
 
 ::::
 
@@ -364,7 +409,7 @@ end
 <div class='fragment'>
 <div></div>
 
-#### Optimized
+#### optimised
 ```ruby
 def perform(*)
   products = Product.eligible
@@ -711,7 +756,7 @@ end
 
 # data flood?
 
-<h2 class=solution> query customization & underfetching </h2>
+<h2 class=solution> query customisation & underfetching </h2>
 <hr />
 <h2 class='solution'> filtering on the server side </h2>
 
@@ -894,7 +939,7 @@ Preload data from DB and hash-join it with billing data
 <div style='width: 33%; float: left'  >
 <div></div>
 
-## Fix: Optimize
+## Fix: optimise
 * preloading to avoid N+1
 * server-side filtering
 * using local data
@@ -939,7 +984,7 @@ Preload data from DB and hash-join it with billing data
 <div style='width: 40%; float: left'  >
 <div></div>
 
-## Fix: Optimize
+## Fix: optimise
 * preloading to avoid N+1 <br>
 <span class='fragment solution'> **every ORM** </span>
 * server-side filtering <br />
@@ -1003,7 +1048,7 @@ Tom Kelley
 
 <!--
 Nihil novi!
-Optimize
+optimise
 * preloading to avoid N+1 -> any ORM
 * app-level hash joins -> even MySQL has hash joins now
 * using local data instead of fetching it
@@ -1017,12 +1062,12 @@ Why not good from the beginning?
 * we started with a boring solution and then applied improvements
 * easy to overlook perf degradation while refactoring
 * hard to find perf issues by staring at the code
-* DRY vs YAGNI - one, big universal endpoint vs several similar, smaller ones optimized for a job (btw GQL solves this)
-* => we could rediscover all those things in the "Optimize" stage, because of the hidden work of the "Monitor" and "Deploy" stages
+* DRY vs YAGNI - one, big universal endpoint vs several similar, smaller ones optimised for a job (btw GQL solves this)
+* => we could rediscover all those things in the "optimise" stage, because of the hidden work of the "Monitor" and "Deploy" stages
 
 > We're sharing this so that you don't repeat our mistakes.
 > Go, make your own mistakes, come back and share your story.
-> That's how we learn as a community and as an industry: we inspect/monitor, we do/optimize and we deploy and then we share what we found out.
+> That's how we learn as a community and as an industry: we inspect/monitor, we do/optimise and we deploy and then we share what we found out.
 
 -->
 
