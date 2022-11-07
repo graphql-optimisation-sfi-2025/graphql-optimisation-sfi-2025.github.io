@@ -1,6 +1,13 @@
 <section
   data-background-image="img/wrench-nadia.jpg"
   style='min-height=120% important!'
+/>
+
+::::
+
+<section
+  data-background-image="img/wrench-nadia.jpg"
+  style='min-height=120% important!'
 >
   <div class='image-overlay title'>
     <h2 class='subtitle'> API Optimisation Tale: </h2>
@@ -15,6 +22,8 @@
     <br />
 
     <small style="font-size:20px"> Photo by <a href="https://pixabay.com/pl/users/padrinan-1694659/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4929711"> Miguel Á. Padriñán</a> from <a href="https://pixabay.com/pl//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4929711"> Pixabay</a> </small>
+
+    <small  style="font-size:10px; margin-left:1000px;">STpcsDG</small>
   </div>
 
 </section>
@@ -1076,7 +1085,7 @@ Why not good from the beginning?
 <div style='width: 20%; float: left'  >
 
 <h3 style='font-size:60px'> Maciek Rząsa </h3>
-<a style='font-size:60px'><i class="fab fa-twitter-square"></i> @mjrzasa <a/>
+<a style='font-size:60px'><i class="fab fa-twitter-square"></i> @mjrzasa </a>
 
 <hr />
  <img src='img/logo-toptal.png' width=100% class='about'></img>
@@ -1095,6 +1104,7 @@ Why not good from the beginning?
 <h1 style="font-size:300px; margin-top:80px"> Q&A </h1>
 
 
+  <small style="font-size:10px; margin-left:1000px;">fFnc,tFnr</small>
   </div>
 </div>
 
