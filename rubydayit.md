@@ -16,7 +16,7 @@
       <span class='problem'>(on Friday)</span>
     </h1>
     <hr>
-    <h2> Maciek Rząsa &nbsp;&middot; &nbsp;Toptal </h2>
+    <h2> Maciek Rząsa &nbsp;&middot; &nbsp;Chattermill </h2>
     <h2>  <a href='https://twitter.com/mjrzasa'>@mjrzasa</a> </h2>
     <br />
     <br />
@@ -107,15 +107,6 @@
 
 
 </section>
-::::
-
-<section
-  data-background-image="img/toptal.png"
-  style='min-height=100% important!'
-> </section>
-::::
-
-<h1 style='font-size: 100px'> Toptal <span class='problem' style='font-size: 290px'> Platform </span> </h1>
 
 ::::
 
@@ -133,22 +124,7 @@
 
 ## Extraction
 
-<img src='img/bx-architecture1-Direct.png' />
-
-:::
-
-## Extraction
-
-<!--
-image1 with architecture (platform calling billing directly or through REST)
-Safe environment
-* engine
-* direct calls & HTTP calls
-* feature flag, percentages
-* fallback
--->
-
-<img src='img/bx-architecture1-REST.png' height=920 >
+<img height=920 src='img/bx-architecture1-Direct2.png' />
 
 :::
 
@@ -193,6 +169,61 @@ end
 
 :::
 
+## Extraction
+
+<!--
+image1 with architecture (platform calling billing directly or through REST)
+Safe environment
+* engine
+* direct calls & HTTP calls
+* feature flag, percentages
+* fallback
+-->
+
+<img src='img/bx-architecture1-REST2.png' height=920 >
+
+<!--
+## Extraction
+
+<div style='width: 50%; float: left'  >
+<div></div>
+
+#### From
+```ruby
+class Product < ApplicationRecord
+  has_many :billing_records
+end
+
+class BillingRecord < ApplicationRecord
+  belongs_to :product
+end
+```
+
+</div>
+
+<div style='width: 50%; float: left'>
+<div></div>
+
+#### To
+```ruby
+class Product < ApplicationRecord
+  def billing_records
+    @billing_records ||=
+      ::Billing::QueryService
+        .billing_records_for_products(self)
+  end
+end
+
+class BillingRecord
+  def product
+    @product ||= Product.find(product_id)
+  end
+end
+```
+</div>
+-->
+:::
+
 .
 <div style='width: 30%; float: left'  >
 <div></div>
@@ -232,11 +263,13 @@ wait for it
 
 <img  class=fragment src='img/fail.gif' height='600px'>
 
-:::
+<!--
 
 ## Extraction: First attempt
 
 <img src='img/fail.jpeg' height='600px'>
+
+-->
 
 <!--
 
@@ -250,7 +283,7 @@ First attempt
 
 ## Extraction: GraphQL
 
-<img src='img/bx-architecture1-GraphQL.png' width='50%'>
+<img src='img/bx-architecture1-GraphQL2.png' width='50%'>
 
 <!--
 Another attempt
@@ -949,11 +982,11 @@ Preload data from DB and hash-join it with billing data
 <div></div>
 
 ## Fix: optimise
-* preloading to avoid N+1
-* server-side filtering
-* using local data
-* underfetching
-* spreading the load
+* **preloading to avoid N+1**
+* **server-side filtering**
+* **using local data**
+* **underfetching**
+* **spreading the load**
 
 </div>
 <div style='width: 32%; float: left'  >
@@ -978,7 +1011,7 @@ Preload data from DB and hash-join it with billing data
 <h2 class='solution'> Nihil novi sub sole </h2>
 </div>
 
-::::
+<!--
 
 <h1 class='solution'> Nihil novi sub sole </h1>
 
@@ -1023,7 +1056,7 @@ Preload data from DB and hash-join it with billing data
 <br />
 
 </div>
-
+-->
 
 ::::
 
@@ -1088,7 +1121,7 @@ Why not good from the beginning?
 <a style='font-size:60px'><i class="fab fa-twitter-square"></i> @mjrzasa </a>
 
 <hr />
- <img src='img/logo-toptal.png' width=100% class='about'></img>
+ <img src='img/chattermill-logo.png' width=100% class='about'></img>
   <img src='img/logo-rrug.png' width=100% class='about'></img>
 
 
