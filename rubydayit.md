@@ -98,12 +98,10 @@
 
 ::::
 <section
-  data-background-image="img/container.webp"
+  data-background-image="img/cat-parcel.jpg"
   style='min-height=100% important!'
 >
-
-<small style='margin-top:1000px; margin-right:1200px;'>Photo by <a href="https://unsplash.com/@fabiusleibrock?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Fabius Leibrock</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> </small>
-
+<small style='margin-top:1000px; margin-right:1200px;'>Photo by <a href="https://unsplash.com/@glr0115?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">乐融 高</a> on <a href="https://unsplash.com/photos/russian-blue-cat-in-brown-cardboard-box-jpiSpLoVZMs?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a></small>
 
 
 </section>
@@ -1011,7 +1009,7 @@ Preload data from DB and hash-join it with billing data
 <h2 class='solution'> Nihil novi sub sole </h2>
 </div>
 
-<!--
+::::
 
 <h1 class='solution'> Nihil novi sub sole </h1>
 
@@ -1056,7 +1054,7 @@ Preload data from DB and hash-join it with billing data
 <br />
 
 </div>
--->
+
 
 ::::
 
@@ -1115,19 +1113,18 @@ Why not good from the beginning?
 
 ::::
 
-<div style='width: 20%; float: left'  >
+<div style='width: 30%; float: left'  >
 
-<h3 style='font-size:60px'> Maciek Rząsa </h3>
-<a style='font-size:60px'><i class="fab fa-twitter-square"></i> @mjrzasa </a>
-
-<hr />
  <img src='img/chattermill-logo.png' width=100% class='about'></img>
   <img src='img/logo-rrug.png' width=100% class='about'></img>
+
+<hr />
+<span style='font-size:60px'><i class="fab fa-linkedin"></i> maciejrzasa </span>
 
 
 </div>
 
-<div style='width: 80%; float: left'>
+<div style='width: 70%; float: left'>
 <div></div>
 
 <div>
@@ -1136,6 +1133,7 @@ Why not good from the beginning?
 
 <h1 style="font-size:300px; margin-top:80px"> Q&A </h1>
 
+seek: 7e9604846a88
 
   <small style="font-size:10px; margin-left:1000px;">fFnc,tFnr</small>
   </div>
