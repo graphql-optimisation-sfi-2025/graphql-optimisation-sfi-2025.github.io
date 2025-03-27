@@ -117,6 +117,11 @@
 
 </section>
 
+::::
+
+## Extraction
+
+<img height=920 src='img/building.gif' />
 
 ::::
 
