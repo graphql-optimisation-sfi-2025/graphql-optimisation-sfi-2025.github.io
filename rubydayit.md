@@ -1113,11 +1113,12 @@ Why not good from the beginning?
 
 ::::
 
-<div style='width: 30%; float: left'  >
+<div style='width: 25%; float: left'  >
 
  <img src='img/chattermill-logo.png' width=100% class='about'></img>
   <img src='img/logo-rrug.png' width=100% class='about'></img>
 
+<img src='img/qr-feedback.png' width='100%' class='about'></img>
 <hr />
 <span style='font-size:60px'><i class="fab fa-linkedin"></i> maciejrzasa </span>
 
@@ -1131,7 +1132,7 @@ Why not good from the beginning?
 <div></div>
 
 
-<h1 style="font-size:300px; margin-top:80px"> Q&A </h1>
+<h1 style="font-size:300px; margin-top:200px"> Q&A </h1>
 
 seek: 7e9604846a88
 
